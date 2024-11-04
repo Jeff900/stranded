@@ -21,6 +21,17 @@ class Game:
     def screen_size(self):
         self.screen_heigth, self.width = os.get_terminal_size()
 
+    def load_settings(self) -> dict:
+        """Loads settings from settings file and returns it as a dictionary"""
+        with open('settings', 'r') as f:
+            settings = dict()
+            for line in f:
+                key, value = line.split('=')
+                if len(value.split(',')) > 1:
+                    value = value.split(',')
+                settings['key'] = value
+        return settings
+
 
 def main():
     game = Game()
