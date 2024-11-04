@@ -2,12 +2,30 @@
 
 from db import Database
 from prompts import Prompt
+import os
+
+
+class Game:
+    """General class to handle all general data, such as game name, db
+    connection, installation funtions etc.
+    """
+
+    def __init__(self, db_name='stranded.db'):
+        self.db_name = db_name
+        self.db = Database(self.db_name)
+        self.gamename = 'Stranded'
+        self.screen_size()
+        self.username = 'username'
+
+
+    def screen_size(self):
+        self.screen_heigth, self.width = os.get_terminal_size()
 
 
 def main():
-    print('Starting main')
-    db = Database()
-    prompt = Prompt(db)
+    game = Game()
+    # db = Database()
+    prompt = Prompt(game.db)
     prompt.print_state()
 
     while True:

@@ -4,7 +4,7 @@ import csv
 
 class Database():
 
-    def __init__(self, db_name='stranded.db'):
+    def __init__(self, db_name):
         self.db_name = db_name
         self.db = sqlite3.connect(db_name)
         self.cursor = self.db.cursor()
@@ -16,13 +16,24 @@ class Database():
 
         if getsize(self.db_name) <= 0:
             print('Database seems to be empty. Configuring database...')
-            with open('db/create_database.sql', 'r') as f:
-                queries = f.read()
-            cur = self.db.cursor()
-            for query in queries.split(';'):
-                cur.execute(query)
+            self.set_db_schema()
+            self.insert_game_data()
+
+    def set_db_schema(self):
+        """Sets schema, table structure etc. to the database.
+        """
+        with open('db/create_database.sql', 'r') as f:
+            queries = f.read()
+        for query in queries.split(';'):
+            self.cursor.execute(query)
+
+    def insert_game_data(self):
+        prompts = self.read_from_csv('story/prompts.csv')
+        prompts = self.csv_to_sql_values(prompts)
+        self.write_data_to_db(prompts, 'db/insert_prompts.sql')
 
     def get_columns(self):
+        """Defines columns per table in database"""
         columns = {
             'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following'],
             'answer': ['prompt_id', 'num', 'answer', 'following']
@@ -30,6 +41,7 @@ class Database():
         return columns
 
     def get_query(self, file):
+        """Reads query from text (sql) file."""
         with open(file, 'r') as f:
             query = f.read()
         return query
@@ -46,27 +58,31 @@ class Database():
         result = self.cursor.execute(query)
         return result.fetchall()
 
-    def read_prompts_from_csv(self):
+    def read_from_csv(self, filename: str) -> list:
         """Reads propmt from CSV file and get it prepared to write to SQLite
         database."""
-        prompts = []
-        with open('story/prompts.csv', 'r') as csvfile:
-            lines = csv.reader(csvfile, delimiter=',', quotechar='"')
+        csv_data = []
+        with open(filename, 'r') as csvfile:
+            lines = csv.reader(csvfile, delimiter=',', quotechar='|')
             for line in lines:
-                prompts.append(line)
-        return prompts
+                csv_data.append(line)
+        return csv_data
 
-    def write_prompts_to_db(self, prompts):
-        """Writes to prompts read from the CSV file to the database."""
-        query = self.get_query('db/insert_prompts.sql')
-        values = ''
-        for index, line in enumerate(prompts):
-            # list comprehension to add quotes on each item.
-            if index > 0:
-                values = values + '(' + ', '.join(line) + ')'
-                if index < len(prompts) - 1:
-                    values = values + ', '
-        query = query.format(values=values)
-        print(query)
-        result = self.cursor.execute(query)
-        return result
+    def csv_to_sql_values(self, lines: list) -> list:
+        sql_values = []
+        for i, line in enumerate(lines):
+            if i > 0:
+                value = '(' + ', '.join(line) + ')'
+                sql_values.append(value)
+        return sql_values
+
+
+    def write_data_to_db(self, data, queryfile):
+        """Writes the prompts read from the CSV file to the database."""
+        query_template = self.get_query(queryfile)
+        for item in data:
+            query = query_template.format(values=item)
+            print(query)
+            # result = self.cursor.execute(query)
+            self.cursor.execute(query)
+        # return result
