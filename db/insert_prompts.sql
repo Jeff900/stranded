@@ -1,0 +1,1 @@
+INSERT INTO prompt VALUES {values}

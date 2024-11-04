@@ -1,0 +1,1 @@
+SELECT {cols} FROM prompt WHERE id = "{id}"
