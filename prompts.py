@@ -21,7 +21,9 @@ class Prompt():
         `next_prompt` is set based on the previous get_prompt() call."""
 
         prompt = self.db.get_prompt(self.columns['prompt'], self.next_prompt)
+        print(prompt)
         prompt = self.set_dict(prompt, self.columns['prompt'])
+        print(prompt)
         self.current_prompt = prompt['id']
         self.next_prompt = prompt['following']
         self.prompt = prompt

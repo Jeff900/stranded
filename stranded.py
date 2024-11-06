@@ -11,14 +11,17 @@ class Game:
     """
 
     def __init__(self, db_name='stranded.db'):
+        self.settings = self.load_settings()
+        print(self.settings)
         self.db_name = db_name
         self.db = Database(self.db_name)
-        self.gamename = 'Stranded'
+        self.gamename = self.settings['gamename']
         self.screen_size()
         self.username = 'username'
 
 
     def screen_size(self):
+        "Get current screen heigth and width of terminal"
         self.screen_heigth, self.width = os.get_terminal_size()
 
     def load_settings(self) -> dict:
@@ -29,19 +32,16 @@ class Game:
                 key, value = line.split('=')
                 if len(value.split(',')) > 1:
                     value = value.split(',')
-                settings['key'] = value
+                settings[key.strip()] = value
         return settings
 
 
 def main():
     game = Game()
-    # db = Database()
     prompt = Prompt(game.db)
-    prompt.print_state()
 
     while True:
         prompt.get_prompt()
-        prompt.print_state()
         prompt.print_preprompt()
         print(prompt.prompt['prompt'])
 
@@ -49,7 +49,6 @@ def main():
             user_input = input('Hit enter to continue... ')
         else:
             prompt.get_answers()
-            prompt.print_state()
             for key, answer in prompt.answers.items():
                 print(type(answer['num']), answer['num'], answer['answer'])
             user_input = input('')
@@ -61,7 +60,6 @@ def main():
         if user_input == 'quit':
             break
 
-        prompt.print_state()
         print()
 
     print('Exit game!')

@@ -17,11 +17,12 @@ class Database():
         if getsize(self.db_name) <= 0:
             print('Database seems to be empty. Configuring database...')
             self.set_db_schema()
-            self.insert_game_data()
+            # self.insert_game_data()
 
     def set_db_schema(self):
         """Sets schema, table structure etc. to the database.
         """
+        print('Setting db schema')
         with open('db/create_database.sql', 'r') as f:
             queries = f.read()
         for query in queries.split(';'):
