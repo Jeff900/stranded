@@ -55,7 +55,8 @@ def main():
             if prompt.valid_answer(user_input):
                 print('User input is valid')
                 # prompt.set_next_prompt(int(user_input))
-                prompt.set_next_prompt(prompt.answers[int(user_input)]['following'])
+                prompt.set_next_prompt(
+                    prompt.answers[int(user_input)]['following'])
 
         if user_input == 'quit':
             break
