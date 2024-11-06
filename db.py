@@ -55,14 +55,20 @@ class Database():
         return query
 
     def get_prompt(self, cols: list, prompt_id) -> tuple | None:
-        """"""
+        """Executes query to get prompt by prompt ID based on get_prompt SQL
+        template. Returns a tuple with one result (will be changed to a list
+        with tuples based on fetchall(), instead of fetchone()).
+        """
         query = self.get_query('db/get_prompt.sql')
         query = query.format(cols=', '.join(cols), id=prompt_id)
         result = self.cursor.execute(query)
         return result.fetchone()
 
     def get_answers(self, cols, prompt_id) -> list:
-        """"""
+        """Executes query to get answers by prompt ID based on get_answers SQL
+        template. Returns a list with tuples for each answer corresponding to
+        the prompt ID.
+        """
         query = self.get_query('db/get_answers.sql')
         query = query.format(cols=', '.join(cols), prompt_id=prompt_id)
         result = self.cursor.execute(query)
