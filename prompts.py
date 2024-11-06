@@ -49,14 +49,18 @@ class Prompt():
             answers_dict[answer['num']] = answer
         return answers_dict
 
-    def valid_answer(self, user_input):
-        """Checks if the user input """
+    def valid_answer(self, user_input: str) -> bool:
+        """Checks if the user input is valid. To be defined in more detail.
+        """
         for answer in self.answers:
             if user_input == str(answer):
                 return True
         return False
 
-    def set_next_prompt(self, following):
+    def set_next_prompt(self, following) -> None:
+        """Sets the next_pompt attribute to the following prompt id from prompt
+        or answer. It resets the answers to None.
+        """
         self.next_prompt = following
         self.answers = None
 
@@ -80,13 +84,17 @@ class Prompt():
                 query_list.append(query_dict)
             return query_list
 
-    def print_preprompt(self):
+    def print_preprompt(self) -> None:
+        """Prints a standard output before the prompt output etc. This function
+        is temporary. It will be replaced with a more robust printing
+        mechanism.
+        """
         print(50 * '#')
         print('#', 'Stranded', 37 * ' ','#')
         print('#', 'Insert `quit` to exit the game.', 14 * ' ', '#')
         print(50 * '#')
 
-    def print_state(self):
+    def print_state(self) -> None:
         """Prints the various states of prompt id's variables for debugging
         purposes. self.debug should be set to False in production."""
         if self.debug:

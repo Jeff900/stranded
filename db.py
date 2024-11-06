@@ -10,7 +10,7 @@ class Database():
         self.cursor = self.db.cursor()
         self.create_database()
 
-    def create_database(self):
+    def create_database(self) -> None:
         """create sqlite database if no database is already created"""
         print(f'Checking database {self.db_name}')
 
@@ -19,7 +19,7 @@ class Database():
             self.set_db_schema()
             # self.insert_game_data()
 
-    def set_db_schema(self):
+    def set_db_schema(self) ->None:
         """Sets schema, table structure etc. to the database.
         """
         print('Setting db schema')
@@ -28,12 +28,16 @@ class Database():
         for query in queries.split(';'):
             self.cursor.execute(query)
 
-    def insert_game_data(self):
+    def insert_game_data(self) -> None:
+        """Inserts gamedate that is loaded from CSV file. At the moment it is
+        only dealing with prompt data, but should handle all CSV data files
+        that should be loaded into the database.
+        """
         prompts = self.read_from_csv('story/prompts.csv')
         prompts = self.csv_to_sql_values(prompts)
         self.write_data_to_db(prompts, 'db/insert_prompts.sql')
 
-    def get_columns(self):
+    def get_columns(self) -> dict:
         """Defines columns per table in database"""
         columns = {
             'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following'],
@@ -41,19 +45,24 @@ class Database():
         }
         return columns
 
-    def get_query(self, file):
-        """Reads query from text (sql) file."""
+    def get_query(self, file: str) -> str:
+        """Reads query from text (sql) file and return it as a string. The file
+        a template file with placeholders to add data to. Placeholders can be
+        replaced using f-strings.
+        """
         with open(file, 'r') as f:
             query = f.read()
         return query
 
-    def get_prompt(self, cols, prompt_id):
+    def get_prompt(self, cols: list, prompt_id) -> tuple | None:
+        """"""
         query = self.get_query('db/get_prompt.sql')
         query = query.format(cols=', '.join(cols), id=prompt_id)
         result = self.cursor.execute(query)
         return result.fetchone()
 
-    def get_answers(self, cols, prompt_id):
+    def get_answers(self, cols, prompt_id) -> list:
+        """"""
         query = self.get_query('db/get_answers.sql')
         query = query.format(cols=', '.join(cols), prompt_id=prompt_id)
         result = self.cursor.execute(query)
