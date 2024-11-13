@@ -94,6 +94,34 @@ class Prompt():
         print('#', 'Insert `quit` to exit the game.', 14 * ' ', '#')
         print(50 * '#')
 
+    def print_prompt(self, heigth, width):
+        blank_line = self.format_blank_line(width)
+        print('#' * width)
+        print(blank_line * 5)
+        # print(self.prompt['prompt'])
+        print(self.format_text(self.prompt['prompt'], width))
+
+    def format_text(self, text, width):
+        width -= 4
+        formatted_text = '# '
+        text = text.split(' ')
+        char_count = 0
+        for word in text:
+            if len(word) + char_count < width:
+                formatted_text = formatted_text + ' ' + word
+                char_count += len(word) + 1
+            else:
+                print('Added newline')
+                formatted_text = formatted_text + ' #\n# ' + word
+                char_count = len(word)
+        print(formatted_text)
+        return formatted_text
+
+
+    def format_blank_line(self, width):
+        return '# ' + ' ' * (width - 4) + ' #'
+
+
     def print_state(self) -> None:
         """Prints the various states of prompt id's variables for debugging
         purposes. self.debug should be set to False in production."""
