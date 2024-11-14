@@ -52,7 +52,7 @@ def main():
             user_input = input('Hit enter to continue... ')
         else:
             for key, answer in prompt.answers.items():
-                print(type(answer['num']), answer['num'], answer['answer'])
+                print(answer['num'], answer['answer'])
             user_input = input('')
             if prompt.valid_answer(user_input):
                 print('User input is valid')
