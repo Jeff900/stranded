@@ -21,9 +21,7 @@ class Prompt():
         `next_prompt` is set based on the previous get_prompt() call."""
 
         prompt = self.db.get_prompt(self.columns['prompt'], self.next_prompt)
-        print(prompt)
         prompt = self.set_dict(prompt, self.columns['prompt'])
-        print(prompt)
         self.current_prompt = prompt['id']
         self.next_prompt = prompt['following']
         self.prompt = prompt
@@ -96,10 +94,12 @@ class Prompt():
 
     def print_prompt(self, heigth, width):
         blank_line = self.format_blank_line(width)
+        prompt_lines = self.count_lines(self.prompt['prompt'], width)
+        print(prompt_lines)
         print('#' * width)
         print(blank_line * 5)
-        # print(self.prompt['prompt'])
         print(self.format_text(self.prompt['prompt'], width))
+        print(blank_line * 5)
 
     def format_text(self, text, width):
         width -= 4
@@ -111,12 +111,25 @@ class Prompt():
                 formatted_text = formatted_text + ' ' + word
                 char_count += len(word) + 1
             else:
-                print('Added newline')
+                # print('Added newline')
                 formatted_text = formatted_text + ' #\n# ' + word
                 char_count = len(word)
-        print(formatted_text)
+        # print(formatted_text)
         return formatted_text
 
+    def count_lines(self, text, width):
+        """Counts the number of lines are needed to print the text within the
+        predefined width. It only uses full words."""
+        width -= 4
+        number_of_lines = 1
+        character_count = 0
+        for word in text.split(' '):
+            if len(word) + character_count <= width:
+                character_count += len(word) + 1
+            else:
+                number_of_lines += 1
+                character_count = len(word) + 1
+        return number_of_lines
 
     def format_blank_line(self, width):
         return '# ' + ' ' * (width - 4) + ' #'
