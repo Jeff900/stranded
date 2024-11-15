@@ -85,21 +85,22 @@ class Prompt():
 
     def print_prompt(self, heigth, width):
         blank_line = self.format_blank_line(width)
+        print('#' * width)
+        print(blank_line)
+        heigth -= 2
+
         prompt = self.format_text(self.prompt['prompt'], width)
         answers = self.format_answers(width)
-        prompt_lines_s = self.count_lines_simplified(prompt)
-        prompt_answer_lines_s = self.count_lines_simplified(answers)
-        prompt_lines = self.count_lines(self.prompt['prompt'], width)
-        answer_lines = self.count_answer_lines(width)
-        print(prompt_lines, answer_lines)
-        print(prompt_lines_s, prompt_answer_lines_s)
-        print('#' * width)
-        print(blank_line * 5)
+
+        prompt_lines = self.count_lines_simplified(prompt)
+        prompt_answer_lines = self.count_lines_simplified(answers)
+
+        prompt_total = self.prompt_count_total(prompt_lines, prompt_answer_lines)
+        print(blank_line * (heigth - (prompt_total)))
         print(self.format_text(self.prompt['prompt'], width))
-        print(blank_line * 5)
+        print(blank_line)
         if len(answers) > 0:
             print(answers)
-        # print(self.format_answers(width))
 
     def format_text(self, text, width):
         width -= 4
@@ -135,6 +136,8 @@ class Prompt():
         """Simplified function to count the number of lines in text based on a
         split on `\n`. Returns the length of the list.
         """
+        if text == '':
+            return 0
         return len(text.split('\n'))
 
     def count_lines(self, text, width):
@@ -169,6 +172,14 @@ class Prompt():
                 formatted_answer = f'{num} {answer}'
                 number_of_lines += self.count_lines(formatted_answer, width)
             return number_of_lines
+
+    def prompt_count_total(self, prompt_lines, answer_lines):
+        # total of prompt lines + 1 empty line after
+        total = prompt_lines + 1
+        # total prompt + answer lines + 1 if there are answers.
+        if answer_lines > 0:
+            total = total + answer_lines
+        return total + 1
 
     def format_blank_line(self, width):
         """Formats a line that should only contain the borders, and in between

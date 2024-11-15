@@ -38,7 +38,7 @@ class Game:
 def main():
     game = Game()
     prompt = Prompt(game.db)
-    print(game.heigth, game.width)
+    # print(game.heigth, game.width)
 
     while True:
         game.screen_size()
@@ -49,7 +49,7 @@ def main():
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
         else:
-            user_input = input('')
+            user_input = input('Select answer')
             if prompt.valid_answer(user_input):
                 print('User input is valid')
                 # prompt.set_next_prompt(int(user_input))
