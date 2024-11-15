@@ -123,6 +123,12 @@ class Prompt():
         formatted_text = formatted_text + ' ' * spaces + ' #'
         return formatted_text
 
+    def count_lines_simplified(self, text):
+        """Simplified function to count the number of lines in text based on a
+        split on `\n`. Returns the length of the list.
+        """
+        return len(text.split('\n'))
+
     def count_lines(self, text, width):
         """Counts the number of lines are needed to print the text within the
         predefined width. It only uses full words.
