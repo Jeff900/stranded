@@ -109,19 +109,28 @@ class Prompt():
         text = text.split(' ')
         char_count = 0
         for word in text:
-            if len(word) + char_count < width:
+            if len(formatted_text) == 2:
+                formatted_text = formatted_text + word
+                char_count += len(word)
+            elif len(word) + char_count < width:
                 formatted_text = formatted_text + ' ' + word
                 char_count += len(word) + 1
             else:
-                # print('Added newline')
-                formatted_text = formatted_text + ' #\n# ' + word
+                spaces = width - char_count
+                formatted_text = formatted_text + ' ' * spaces + ' #\n# ' + word
                 char_count = len(word)
-        # print(formatted_text)
+        spaces = width - char_count
+        formatted_text = formatted_text + ' ' * spaces + ' #'
         return formatted_text
 
     def count_lines(self, text, width):
         """Counts the number of lines are needed to print the text within the
-        predefined width. It only uses full words."""
+        predefined width. It only uses full words.
+        count_lines() might be superfluous for at least prompts. It is easier
+        to simply split the formatted_text from format_text() on '\n' and check
+        the list length.
+        Not sure if this is working for answer this easy.
+        """
         width -= 4
         number_of_lines = 1
         character_count = 0
