@@ -44,6 +44,7 @@ def main():
         game.screen_size()
         prompt.get_prompt()
         prompt.get_answers()
+        print(prompt.answers)
         prompt.print_prompt(game.heigth, game.width)
 
         if prompt.prompt['has_answers'] == 0:

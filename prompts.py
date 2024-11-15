@@ -36,18 +36,6 @@ class Prompt():
         answers = self.format_answers(answers)
         self.answers = answers
 
-    def format_answers(self, answers):
-        """Formats all answers so that the index number from every answer
-        becomes the key value of a dictionary. This way the numbers can be
-        used as answer numbers for user input and can be found in the
-        dictionary using the user input. The value of the dictionary is the
-        dictionary created with set_dict()."""
-
-        answers_dict = {}
-        for answer in answers:
-            answers_dict[answer['num']] = answer
-        return answers_dict
-
     def valid_answer(self, user_input: str) -> bool:
         """Checks if the user input is valid. To be defined in more detail.
         """
@@ -112,6 +100,18 @@ class Prompt():
         spaces = width - char_count
         formatted_text = formatted_text + ' ' * spaces + ' #'
         return formatted_text
+
+    def format_answers(self, answers):
+        """Formats all answers so that the index number from every answer
+        becomes the key value of a dictionary. This way the numbers can be
+        used as answer numbers for user input and can be found in the
+        dictionary using the user input. The value of the dictionary is the
+        dictionary created with set_dict()."""
+
+        answers_dict = {}
+        for answer in answers:
+            answers_dict[answer['num']] = answer
+        return answers_dict
 
     def count_lines_simplified(self, text):
         """Simplified function to count the number of lines in text based on a
