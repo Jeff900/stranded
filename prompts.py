@@ -33,10 +33,10 @@ class Prompt():
 
         answers = self.db.get_answers(self.columns['answer'], self.current_prompt)
         answers = self.set_dict(answers, self.columns['answer'])
-        answers = self.format_answers(answers)
+        answers = self.numbering_answers(answers)
         self.answers = answers
 
-    def format_answers(self, answers):
+    def numbering_answers(self, answers):
         """Formats all answers so that the index number from every answer
         becomes the key value of a dictionary. This way the numbers can be
         used as answer numbers for user input and can be found in the
@@ -85,13 +85,21 @@ class Prompt():
 
     def print_prompt(self, heigth, width):
         blank_line = self.format_blank_line(width)
+        prompt = self.format_text(self.prompt['prompt'], width)
+        answers = self.format_answers(width)
+        prompt_lines_s = self.count_lines_simplified(prompt)
+        prompt_answer_lines_s = self.count_lines_simplified(answers)
         prompt_lines = self.count_lines(self.prompt['prompt'], width)
         answer_lines = self.count_answer_lines(width)
         print(prompt_lines, answer_lines)
+        print(prompt_lines_s, prompt_answer_lines_s)
         print('#' * width)
         print(blank_line * 5)
         print(self.format_text(self.prompt['prompt'], width))
         print(blank_line * 5)
+        if len(answers) > 0:
+            print(answers)
+        # print(self.format_answers(width))
 
     def format_text(self, text, width):
         width -= 4
@@ -112,6 +120,16 @@ class Prompt():
         spaces = width - char_count
         formatted_text = formatted_text + ' ' * spaces + ' #'
         return formatted_text
+
+    def format_answers(self, width):
+        answer_text = ''
+        for i, answer in enumerate(self.answers.values(), start=1):
+            answer_line = self.format_text(f'{answer['num']} {answer['answer']}' ,width)
+            answer_text = answer_text + answer_line
+            if i < len(self.answers):
+                answer_text = answer_text + '\n'
+
+        return answer_text
 
     def count_lines_simplified(self, text):
         """Simplified function to count the number of lines in text based on a

@@ -44,14 +44,11 @@ def main():
         game.screen_size()
         prompt.get_prompt()
         prompt.get_answers()
-        print(prompt.answers)
         prompt.print_prompt(game.heigth, game.width)
 
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
         else:
-            for key, answer in prompt.answers.items():
-                print(answer['num'], answer['answer'])
             user_input = input('')
             if prompt.valid_answer(user_input):
                 print('User input is valid')
