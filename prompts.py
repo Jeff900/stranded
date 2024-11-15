@@ -83,16 +83,6 @@ class Prompt():
                 query_list.append(query_dict)
             return query_list
 
-    def print_preprompt(self) -> None:
-        """Prints a standard output before the prompt output etc. This function
-        is temporary. It will be replaced with a more robust printing
-        mechanism.
-        """
-        print(50 * '#')
-        print('#', 'Stranded', 37 * ' ','#')
-        print('#', 'Insert `quit` to exit the game.', 14 * ' ', '#')
-        print(50 * '#')
-
     def print_prompt(self, heigth, width):
         blank_line = self.format_blank_line(width)
         prompt_lines = self.count_lines(self.prompt['prompt'], width)

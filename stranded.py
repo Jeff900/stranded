@@ -45,8 +45,6 @@ def main():
         prompt.get_prompt()
         prompt.get_answers()
         prompt.print_prompt(game.heigth, game.width)
-        prompt.print_preprompt()
-        # print(prompt.prompt['prompt'])
 
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
