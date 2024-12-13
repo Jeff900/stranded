@@ -56,12 +56,11 @@ class Database():
 
     def get_prompt(self, cols: list, prompt_id) -> tuple | None:
         """Executes query to get prompt by prompt ID based on get_prompt SQL
-        template. Returns a tuple with one result (will be changed to a list
-        with tuples based on fetchall(), instead of fetchone()).
+        template. Returns a tuple with one result.
         """
         query = self.get_query('db/get_prompt.sql')
-        query = query.format(cols=', '.join(cols), id=prompt_id)
-        result = self.cursor.execute(query)
+        query = query.format(cols=', '.join(cols))
+        result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchone()
 
     def get_answers(self, cols, prompt_id) -> list:
@@ -70,8 +69,8 @@ class Database():
         the prompt ID.
         """
         query = self.get_query('db/get_answers.sql')
-        query = query.format(cols=', '.join(cols), prompt_id=prompt_id)
-        result = self.cursor.execute(query)
+        query = query.format(cols=', '.join(cols))
+        result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchall()
 
     def read_from_csv(self, filename: str) -> list:

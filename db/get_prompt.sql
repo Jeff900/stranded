@@ -1,1 +1,1 @@
-SELECT {cols} FROM prompt WHERE id = "{id}"
+SELECT {cols} FROM prompt WHERE id = ?

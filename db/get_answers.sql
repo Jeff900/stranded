@@ -1,1 +1,1 @@
-SELECT {cols} FROM answer WHERE prompt_id = "{prompt_id}"
+SELECT {cols} FROM answer WHERE prompt_id = ?
