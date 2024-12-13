@@ -38,7 +38,6 @@ class Game:
 def main():
     game = Game()
     prompt = Prompt(game.db)
-    # print(game.heigth, game.width)
 
     while True:
         game.screen_size()
