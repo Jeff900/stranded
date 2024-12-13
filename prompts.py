@@ -17,7 +17,7 @@ class Prompt():
         self.answers = None
         self.debug = True
 
-    def get_prompt(self):
+    def get_prompt(self) -> None:
         """Get the next prompt based on the `next_prompt` variable.
         `next_prompt` is set based on the previous get_prompt() call."""
 
@@ -27,7 +27,7 @@ class Prompt():
         self.next_prompt = prompt['following']
         self.prompt = prompt
 
-    def get_answers(self):
+    def get_answers(self) -> None:
         """Get the answer corresponding to current prompt. This function
         should only be called when a prompt contains answers."""
 
@@ -36,12 +36,12 @@ class Prompt():
         answers = self.numbering_answers(answers)
         self.answers = answers
 
-    def numbering_answers(self, answers):
+    def numbering_answers(self, answers) -> dict:
         """Formats all answers so that the index number from every answer
         becomes the key value of a dictionary. This way the numbers can be
         used as answer numbers for user input and can be found in the
         dictionary using the user input. The value of the dictionary is the
-        dictionary created with set_dict()."""
+        dictionary created with Prompt.set_dict()."""
 
         answers_dict = {}
         for answer in answers:
@@ -63,7 +63,7 @@ class Prompt():
         self.next_prompt = following
         self.answers = None
 
-    def set_dict(self, query, cols):
+    def set_dict(self, query, cols) -> dict | list:
         """Sets dictionary with query results per column. Returns a single dict
         when query contains one record. Returns list of dicts when query
         contains multiple records.
@@ -83,7 +83,7 @@ class Prompt():
                 query_list.append(query_dict)
             return query_list
 
-    def print_prompt(self, heigth, width):
+    def print_prompt(self, heigth, width) -> None:
         blank_line = self.format_blank_line(width)
         print('#' * width)
         print(blank_line)
@@ -102,7 +102,7 @@ class Prompt():
         if len(answers) > 0:
             print(answers)
 
-    def format_text(self, text, width):
+    def format_text(self, text, width) -> str:
         width -= 4
         formatted_text = '# '
         text = text.split(' ')
@@ -122,7 +122,7 @@ class Prompt():
         formatted_text = formatted_text + ' ' * spaces + ' #'
         return formatted_text
 
-    def format_answers(self, width):
+    def format_answers(self, width) -> str:
         answer_text = ''
         for i, answer in enumerate(self.answers.values(), start=1):
             answer_line = self.format_text(f"{answer['num']} {answer['answer']}" ,width)
@@ -132,7 +132,7 @@ class Prompt():
 
         return answer_text
 
-    def count_lines_simplified(self, text):
+    def count_lines_simplified(self, text) -> int:
         """Simplified function to count the number of lines in text based on a
         split on `\n`. Returns the length of the list.
         """
@@ -140,7 +140,7 @@ class Prompt():
             return 0
         return len(text.split('\n'))
 
-    def count_lines(self, text, width):
+    def count_lines(self, text, width) -> int:
         """Counts the number of lines are needed to print the text within the
         predefined width. It only uses full words.
         count_lines() might be superfluous for at least prompts. It is easier
@@ -159,7 +159,7 @@ class Prompt():
                 character_count = len(word) + 1
         return number_of_lines
 
-    def count_answer_lines(self, width):
+    def count_answer_lines(self, width) -> int:
         """Gets sum of all lines that are needed to print all possible answer
         with a prompt. At the moment it will only work correctly with less than
         10 answers.
@@ -173,7 +173,10 @@ class Prompt():
                 number_of_lines += self.count_lines(formatted_answer, width)
             return number_of_lines
 
-    def prompt_count_total(self, prompt_lines, answer_lines):
+    def prompt_count_total(self, prompt_lines, answer_lines) -> int:
+        """Counts the number of lines that the prompt, and if applicable the
+        answers, needs to be printed on.
+        """
         # total of prompt lines + 1 empty line after
         total = prompt_lines + 1
         # total prompt + answer lines + 1 if there are answers.
@@ -181,7 +184,7 @@ class Prompt():
             total = total + answer_lines
         return total + 1
 
-    def format_blank_line(self, width):
+    def format_blank_line(self, width) -> str:
         """Formats a line that should only contain the borders, and in between
         only spaces.
         """
