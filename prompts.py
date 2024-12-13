@@ -10,9 +10,9 @@ class Prompt():
         self.area = ''
         self.story_type = ''
         self.story = ''
-        self.current_prompt = '1'
-        self.prev_prompt = ''
-        self.next_prompt = '1'
+        self.current_prompt = 1
+        self.prev_prompt = None
+        self.next_prompt = 1
         self.prompt = None
         self.answers = None
         self.debug = True
@@ -36,7 +36,7 @@ class Prompt():
         answers = self.numbering_answers(answers)
         self.answers = answers
 
-    def numbering_answers(self, answers) -> dict:
+    def numbering_answers(self, answers: dict) -> dict:
         """Formats all answers so that the index number from every answer
         becomes the key value of a dictionary. This way the numbers can be
         used as answer numbers for user input and can be found in the
