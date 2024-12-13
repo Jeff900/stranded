@@ -125,7 +125,7 @@ class Prompt():
     def format_answers(self, width):
         answer_text = ''
         for i, answer in enumerate(self.answers.values(), start=1):
-            answer_line = self.format_text(f'{answer['num']} {answer['answer']}' ,width)
+            answer_line = self.format_text(f"{answer['num']} {answer['answer']}" ,width)
             answer_text = answer_text + answer_line
             if i < len(self.answers):
                 answer_text = answer_text + '\n'
