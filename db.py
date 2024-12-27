@@ -13,10 +13,7 @@ class Database():
     def create_database(self) -> None:
         """create sqlite database if no database is already created"""
         print(f'Checking database {self.db_name}')
-
-        if getsize(self.db_name) <= 0:
-            print('Database seems to be empty. Configuring database...')
-            self.set_db_schema()
+        self.set_db_schema()
 
     def set_db_schema(self) ->None:
         """Sets schema, table structure etc. to the database.
@@ -96,6 +93,5 @@ class Database():
         query_template = self.get_query(queryfile)
         for item in data:
             query = query_template.format(values=item)
-            print(query)
-            # result = self.cursor.execute(query)
             self.cursor.execute(query)
+            self.db.commit()
