@@ -85,8 +85,8 @@ class Prompt():
                 query_list.append(query_dict)
             return query_list
 
-    def print_prompt(self, heigth, width) -> None:
-        tprint('granted')
+    def print_prompt(self, gamename, heigth, width) -> None:
+        tprint(gamename)
         blank_line = self.format_blank_line(width)
         print('#' * width)
         print(blank_line)

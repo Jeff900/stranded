@@ -43,7 +43,7 @@ def main():
         game.screen_size()
         prompt.get_prompt()
         prompt.get_answers()
-        prompt.print_prompt(game.heigth, game.width)
+        prompt.print_prompt(game.gamename, game.heigth, game.width)
 
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
@@ -55,7 +55,7 @@ def main():
                 prompt.set_next_prompt(
                     prompt.answers[int(user_input)]['following'])
 
-        if user_input == 'quit':
+        if user_input in ['quit', 'exit']:
             break
 
         print()
