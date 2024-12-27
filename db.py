@@ -32,6 +32,9 @@ class Database():
         prompts = self.read_from_csv('story/prompts.csv')
         prompts = self.csv_to_sql_values(prompts)
         self.write_data_to_db(prompts, 'db/insert_prompts.sql')
+        answers = self.read_from_csv('story/answers.csv')
+        asnwers = self.csv_to_sql_values(answers)
+        self.write_data_to_db(asnwers, 'db/insert_answers.sql')
 
     def get_columns(self) -> dict:
         """Defines columns per table in database"""
@@ -87,11 +90,11 @@ class Database():
                 sql_values.append(value)
         return sql_values
 
-
     def write_data_to_db(self, data, queryfile):
         """Writes the prompts read from the CSV file to the database."""
         query_template = self.get_query(queryfile)
         for item in data:
             query = query_template.format(values=item)
+            print(query)
             self.cursor.execute(query)
-            self.db.commit()
+        self.db.commit()
