@@ -1,5 +1,7 @@
 """module for handling prompts and answer"""
 
+from art import tprint
+
 
 class Prompt():
 
@@ -84,10 +86,11 @@ class Prompt():
             return query_list
 
     def print_prompt(self, heigth, width) -> None:
+        tprint('granted')
         blank_line = self.format_blank_line(width)
         print('#' * width)
         print(blank_line)
-        heigth -= 2
+        heigth -= 9
 
         prompt = self.format_text(self.prompt['prompt'], width)
         answers = self.format_answers(width)
