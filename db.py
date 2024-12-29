@@ -77,11 +77,14 @@ class Database():
         result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchall()
 
-    def collect_item(self, item_id: int) -> None:
+    def collect_item(self, item_id: int, answer_id: int) -> None:
         """Insert item from answer into the inventory.
         """
         query = self.get_query('db/collect_item.sql')
         self.cursor.execute(query, (item_id, ))
+        query = self.get_query('db/update_answer.sql')
+        item_id = -abs(item_id)
+        self.cursor.execute(query, (item_id, answer_id))
         self.db.commit()
 
     def read_from_csv(self, filename: str) -> list:

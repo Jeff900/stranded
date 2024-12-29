@@ -51,9 +51,10 @@ def main():
             user_input = input('Select answer (enter number): ')
             if prompt.valid_answer(user_input):
                 item_id = prompt.answers[int(user_input)]['item_id']
+                answer_id = prompt.answers[int(user_input)]['id']
                 if item_id != 0:
                     print('Here is an item')
-                    game.db.collect_item(item_id)
+                    game.db.collect_item(item_id, answer_id)
                 else:
                     print('Here is no item')
                 prompt.set_next_prompt(
