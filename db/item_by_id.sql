@@ -1,0 +1,1 @@
+SELECT id, item_id FROM inventory WHERE item_id = ?

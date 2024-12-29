@@ -26,8 +26,8 @@ class Prompt():
         prompt = self.db.get_prompt(self.columns['prompt'], self.next_prompt)
         prompt = self.set_dict(prompt, self.columns['prompt'])
         self.current_prompt = prompt['id']
-        self.next_prompt = prompt['following']
         self.prompt = prompt
+        self.set_next_prompt(prompt['following'])
 
     def get_answers(self) -> None:
         """Get the answer corresponding to current prompt. This function
@@ -63,10 +63,10 @@ class Prompt():
         or answer. It resets the answers to None.
         """
         # if prompt item required is not 0
-        if self.prompt['required_item'] != 0:
-            pass
-        # check inventory for iten by ID (True of False)
-        # if True AND
+        if self.prompt['required_item'] != 0 and self.has_required_item(
+            self.prompt['required_item']):
+            print('Item required here AND in inventory')
+            self.next_prompt = self.prompt['following_alt']
         else: 
             self.next_prompt = following
         self.answers = None
@@ -208,3 +208,9 @@ class Prompt():
             print('previous:', type(self.prev_prompt), self.prev_prompt)
             print('next:', type(self.next_prompt), self.next_prompt)
             print('##################################\n')
+
+    def has_required_item(self, item_id):
+        required_item = self.db.item_by_id(item_id)
+        if required_item is None:
+            return False
+        return True

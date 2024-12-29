@@ -62,8 +62,6 @@ class Database():
         """
         query = self.get_query('db/get_prompt.sql')
         query = query.format(cols=', '.join(cols))
-        print(query)
-        print(prompt_id)
         result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchone()
 
@@ -86,6 +84,12 @@ class Database():
         item_id = -abs(item_id)
         self.cursor.execute(query, (item_id, answer_id))
         self.db.commit()
+
+    def item_by_id(self, item_id: int) -> tuple | None:
+        """Get item by ID and return tuple or None
+        """
+        query = self.get_query('db/item_by_id.sql')
+        return self.cursor.execute(query, (item_id, )).fetchone()
 
     def read_from_csv(self, filename: str) -> list:
         """Reads propmt from CSV file and get it prepared to write to SQLite
