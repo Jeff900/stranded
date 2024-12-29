@@ -62,7 +62,13 @@ class Prompt():
         """Sets the next_pompt attribute to the following prompt id from prompt
         or answer. It resets the answers to None.
         """
-        self.next_prompt = following
+        # if prompt item required is not 0
+        if self.prompt['required_item'] != 0:
+            pass
+        # check inventory for iten by ID (True of False)
+        # if True AND
+        else: 
+            self.next_prompt = following
         self.answers = None
 
     def set_dict(self, query, cols) -> dict | list:
