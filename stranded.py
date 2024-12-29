@@ -48,10 +48,12 @@ def main():
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
         else:
-            user_input = input('Select answer')
+            user_input = input('Select answer (enter number): ')
             if prompt.valid_answer(user_input):
-                print('User input is valid')
-                # prompt.set_next_prompt(int(user_input))
+                if prompt.answers[int(user_input)]['item_id'] != 0:
+                    print('Here is an item')
+                else:
+                    print('Here is no item')
                 prompt.set_next_prompt(
                     prompt.answers[int(user_input)]['following'])
 

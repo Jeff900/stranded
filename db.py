@@ -33,14 +33,17 @@ class Database():
         prompts = self.csv_to_sql_values(prompts)
         self.write_data_to_db(prompts, 'db/insert_prompts.sql')
         answers = self.read_from_csv('story/answers.csv')
-        asnwers = self.csv_to_sql_values(answers)
-        self.write_data_to_db(asnwers, 'db/insert_answers.sql')
+        answers = self.csv_to_sql_values(answers)
+        self.write_data_to_db(answers, 'db/insert_answers.sql')
+        items = self.read_from_csv('story/items.csv')
+        items = self.csv_to_sql_values(items)
+        self.write_data_to_db(items, 'db/insert_items.sql')
 
     def get_columns(self) -> dict:
         """Defines columns per table in database"""
         columns = {
             'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following'],
-            'answer': ['prompt_id', 'num', 'answer', 'following']
+            'answer': ['prompt_id', 'num', 'answer', 'following', 'item_id']
         }
         return columns
 
@@ -59,6 +62,8 @@ class Database():
         """
         query = self.get_query('db/get_prompt.sql')
         query = query.format(cols=', '.join(cols))
+        print(query)
+        print(prompt_id)
         result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchone()
 
@@ -77,7 +82,7 @@ class Database():
         database."""
         csv_data = []
         with open(filename, 'r') as csvfile:
-            lines = csv.reader(csvfile, delimiter=',', quotechar='|')
+            lines = csv.reader(csvfile, delimiter=';', quotechar='|')
             for line in lines:
                 csv_data.append(line)
         return csv_data
