@@ -77,6 +77,13 @@ class Database():
         result = self.cursor.execute(query, (prompt_id, ))
         return result.fetchall()
 
+    def collect_item(self, item_id: int) -> None:
+        """Insert item from answer into the inventory.
+        """
+        query = self.get_query('db/collect_item.sql')
+        self.cursor.execute(query, (item_id, ))
+        self.db.commit()
+
     def read_from_csv(self, filename: str) -> list:
         """Reads propmt from CSV file and get it prepared to write to SQLite
         database."""
