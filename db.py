@@ -43,7 +43,7 @@ class Database():
         """Defines columns per table in database"""
         columns = {
             'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following'],
-            'answer': ['prompt_id', 'num', 'answer', 'following', 'item_id']
+            'answer': ['id', 'prompt_id', 'num', 'answer', 'following', 'item_id']
         }
         return columns
 
