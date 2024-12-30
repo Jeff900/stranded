@@ -50,9 +50,13 @@ def main():
         else:
             user_input = input('Select answer (enter number): ')
             if prompt.valid_answer(user_input):
+                # get item_id from answer and checks if it is an actual item_id
+                # e.g. not 0.
                 item_id = prompt.answers[int(user_input)]['item_id']
                 answer_id = prompt.answers[int(user_input)]['id']
                 if item_id != 0:
+                    # if actual item_id, put it in inventory and change answer
+                    # table. Make id negative integer.
                     game.db.collect_item(item_id, answer_id)
 
                 prompt.set_next_prompt(
@@ -63,9 +67,6 @@ def main():
 
         print()
 
-    print('Exit game!')
-
 
 if __name__ == '__main__':
-    print('Starting game')
     main()

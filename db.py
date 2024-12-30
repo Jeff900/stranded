@@ -42,7 +42,7 @@ class Database():
     def get_columns(self) -> dict:
         """Defines columns per table in database"""
         columns = {
-            'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following', 'following_alt', 'required_item'],
+            'prompt': ['island', 'area', 'story_type', 'story', 'id', 'person', 'prompt', 'has_answers', 'following', 'following_alt', 'required_item', 'item'],
             'answer': ['id', 'prompt_id', 'num', 'answer', 'following', 'item_id']
         }
         return columns

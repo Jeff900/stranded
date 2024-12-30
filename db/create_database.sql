@@ -32,7 +32,9 @@ CREATE TABLE IF NOT EXISTS prompt (
 	following INTEGER,
 	following_alt INTEGER DEFAULT 0,
 	required_item INTEGER DEFAULT 0,
-	FOREIGN KEY(required_item) REFERENCES item(id)
+	item INTEGER DEFAULT 0,
+	FOREIGN KEY(required_item) REFERENCES item(id),
+	FOREIGN KEY(item) REFERENCES item(id)
 );
 
 CREATE TABLE IF NOT EXISTS answer (
