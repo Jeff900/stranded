@@ -199,16 +199,6 @@ class Prompt():
         """
         return '# ' + ' ' * (width - 4) + ' #'
 
-    def print_state(self) -> None:
-        """Prints the various states of prompt id's variables for debugging
-        purposes. self.debug should be set to False in production."""
-        if self.debug:
-            print('\n### Current state of variables ###')
-            print('current:', type(self.current_prompt), self.current_prompt)
-            print('previous:', type(self.prev_prompt), self.prev_prompt)
-            print('next:', type(self.next_prompt), self.next_prompt)
-            print('##################################\n')
-
     def has_required_item(self, item_id):
         required_item = self.db.item_by_id(item_id)
         if required_item is None:
