@@ -216,9 +216,8 @@ class Prompt():
         return '# ' + ' ' * (width - 4) + ' #'
 
     def has_required_item(self, item_id):
-        """Looks if item_id from the prompts query is None. In that case
-        returns False. If item is required, an integer should be used in the
-        database to poin the the specific item (id).
+        """Search for the item in the inventory table. If item is not in
+        inventory, return False. Otherwise, return True.
         """
         required_item = self.db.item_by_id(item_id)
         if required_item is None:
