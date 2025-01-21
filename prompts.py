@@ -98,13 +98,17 @@ class Prompt():
         print(blank_line)
         heigth -= 9
 
+        menu = self.format_text('Menu: Inventory (i) - Quit game (quit)', width)
         prompt = self.format_text(self.prompt['prompt'], width)
         answers = self.format_answers(width)
 
+        menu_lines = self.count_lines_simplified(menu)
+        heigth -= menu_lines
         prompt_lines = self.count_lines_simplified(prompt)
         prompt_answer_lines = self.count_lines_simplified(answers)
 
         prompt_total = self.prompt_count_total(prompt_lines, prompt_answer_lines)
+        print(menu)
         print(blank_line * (heigth - (prompt_total)))
         print(self.format_text(self.prompt['prompt'], width))
         print(blank_line)
@@ -132,6 +136,7 @@ class Prompt():
         return formatted_text
 
     def format_answers(self, width) -> str:
+        """"""
         answer_text = ''
         for i, answer in enumerate(self.answers.values(), start=1):
             answer_line = self.format_text(f"{answer['num']} {answer['answer']}" ,width)
@@ -143,7 +148,8 @@ class Prompt():
 
     def count_lines_simplified(self, text) -> int:
         """Simplified function to count the number of lines in text based on a
-        split on `\n`. Returns the length of the list.
+        split on `\n`. Returns the length of the list, which a representation
+        of the number of lines.
         """
         if text == '':
             return 0
@@ -157,21 +163,30 @@ class Prompt():
         the list length.
         Not sure if this is working for answer this easy.
         """
+
+        # width should be width minus "# " en " #" on both ends of the line
         width -= 4
+        # number_of lines has a minimum of 1
         number_of_lines = 1
+        # character count starts at 0 for first line
         character_count = 0
         for word in text.split(' '):
             if len(word) + character_count <= width:
+                # if word still fits on the same line, add length to
+                # character_count.
                 character_count += len(word) + 1
             else:
+                # if word doesn't fit on the same line, add 1 to
+                # number_of_lines and set character_count to length of word
                 number_of_lines += 1
                 character_count = len(word) + 1
         return number_of_lines
 
     def count_answer_lines(self, width) -> int:
         """Gets sum of all lines that are needed to print all possible answer
-        with a prompt. At the moment it will only work correctly with less than
-        10 answers.
+        from a prompt. At the moment it will only work correctly with less than
+        10 answers, because the code will not look at the length of the nubmer
+        that is used as prefix for the answer. At will assume a length of 1.
         """
         if self.prompt['has_answers'] == 0:
             return 0
@@ -195,11 +210,16 @@ class Prompt():
 
     def format_blank_line(self, width) -> str:
         """Formats a line that should only contain the borders, and in between
-        only spaces.
+        only spaces. This line will be used to fill the screen where no content
+        is printed.
         """
         return '# ' + ' ' * (width - 4) + ' #'
 
     def has_required_item(self, item_id):
+        """Looks if item_id from the prompts query is None. In that case
+        returns False. If item is required, an integer should be used in the
+        database to poin the the specific item (id).
+        """
         required_item = self.db.item_by_id(item_id)
         if required_item is None:
             return False
