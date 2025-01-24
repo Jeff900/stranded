@@ -9,10 +9,16 @@ class Game:
     """General class to handle all general data, such as game name, db
     connection, installation funtions etc.
     """
+    settings: dict
+    db_name: str
+    db: Database
+    gamename: str
+    username: str
+    width: int
+    height: int
 
     def __init__(self, db_name='stranded.db'):
         self.settings = self.load_settings()
-        print(self.settings)
         self.db_name = db_name
         self.db = Database(self.db_name)
         self.gamename = self.settings['gamename']
