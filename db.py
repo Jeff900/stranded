@@ -3,6 +3,9 @@ from os.path import getsize
 import csv
 
 class Database():
+    db_name: str
+    db: sqlite3.Connection
+    cursor: sqlite3.Cursor
 
     def __init__(self, db_name):
         self.db_name = db_name
