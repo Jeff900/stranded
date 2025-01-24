@@ -1,8 +1,8 @@
 """This is the main module for the Stranded game."""
 
+import shutil
 from db import Database
 from prompts import Prompt
-import os
 
 
 class Game:
@@ -27,7 +27,7 @@ class Game:
 
     def screen_size(self):
         "Get current screen height and width of terminal"
-        self.width, self.height = os.get_terminal_size()
+        self.width, self.height = shutil.get_terminal_size()
 
     def load_settings(self) -> dict:
         """Loads settings from settings file and returns it as a dictionary"""
