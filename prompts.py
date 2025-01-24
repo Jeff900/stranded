@@ -91,25 +91,25 @@ class Prompt():
                 query_list.append(query_dict)
             return query_list
 
-    def print_prompt(self, gamename, heigth, width) -> None:
+    def print_prompt(self, gamename, height, width) -> None:
         tprint(gamename)
         blank_line = self.format_blank_line(width)
         print('#' * width)
         print(blank_line)
-        heigth -= 9
+        height -= 9
 
         menu = self.format_text('Menu: Inventory (i) - Quit game (quit)', width)
         prompt = self.format_text(self.prompt['prompt'], width)
         answers = self.format_answers(width)
 
         menu_lines = self.count_lines_simplified(menu)
-        heigth -= menu_lines
+        height -= menu_lines
         prompt_lines = self.count_lines_simplified(prompt)
         prompt_answer_lines = self.count_lines_simplified(answers)
 
         prompt_total = self.prompt_count_total(prompt_lines, prompt_answer_lines)
         print(menu)
-        print(blank_line * (heigth - (prompt_total)))
+        print(blank_line * (height - (prompt_total)))
         print(self.format_text(self.prompt['prompt'], width))
         print(blank_line)
         if len(answers) > 0:

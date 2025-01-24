@@ -20,8 +20,8 @@ class Game:
         self.username = 'username'
 
     def screen_size(self):
-        "Get current screen heigth and width of terminal"
-        self.width, self.heigth = os.get_terminal_size()
+        "Get current screen height and width of terminal"
+        self.width, self.height = os.get_terminal_size()
 
     def load_settings(self) -> dict:
         """Loads settings from settings file and returns it as a dictionary"""
@@ -43,7 +43,7 @@ def main():
         game.screen_size()
         prompt.get_prompt()
         prompt.get_answers()
-        prompt.print_prompt(game.gamename, game.heigth, game.width)
+        prompt.print_prompt(game.gamename, game.height, game.width)
 
         if prompt.prompt['has_answers'] == 0:
             user_input = input('Hit enter to continue... ')
