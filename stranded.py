@@ -21,11 +21,12 @@ class Game:
         self.settings = self.load_settings()
         self.db_name = db_name
         self.db = Database(self.db_name)
+        self.db.set_db_schema()
         self.gamename = self.settings['gamename']
         self.screen_size()
         self.username = 'username'
 
-    def screen_size(self):
+    def screen_size(self) -> None:
         "Get current screen height and width of terminal"
         self.width, self.height = shutil.get_terminal_size()
 
@@ -39,6 +40,16 @@ class Game:
                     value = value.split(',')
                 settings[key.strip()] = value
         return settings
+
+    def check_database(self):
+        """Checks if there is data in the prompts table in the database. If so,
+        assume that the database is correctly setup. Currently it will not
+        check every single table. 
+        """
+        if self.db.count_prompts() == 0:
+            print('It seems the database is not set up yet.')
+            return False
+        return True
 
 
 def main():

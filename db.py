@@ -120,3 +120,8 @@ class Database():
             print(query)
             self.cursor.execute(query)
         self.db.commit()
+
+    def count_prompts(self):
+        query = 'SELECT count(id) FROM prompt'
+        results = self.cursor.execute(query).fetchone()
+        return results[0]
