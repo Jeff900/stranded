@@ -4,20 +4,32 @@ from art import tprint
 
 
 class Prompt():
+    db: object # db.Database object
+    columns: dict
+    island: int # currently not used
+    area: int # currently not used
+    story_type: int # currently not used
+    story: int # currently not used
+    current_prompt: int
+    prev_prompt: int # currently not used
+    next_prompt: int
+    prompt: tuple | None
+    answers: dict | None
+    debug: bool # currently not used
 
     def __init__(self, db):
         self.db = db
         self.columns = self.db.get_columns()
-        self.island = ''
-        self.area = ''
-        self.story_type = ''
-        self.story = ''
+        # self.island = ''
+        # self.area = ''
+        # self.story_type = ''
+        # self.story = ''
         self.current_prompt = 1
-        self.prev_prompt = None
+        # self.prev_prompt = 0
         self.next_prompt = 1
         self.prompt = None
         self.answers = None
-        self.debug = True
+        self.debug = False
 
     def get_prompt(self) -> None:
         """Get the next prompt based on the `next_prompt` variable.
