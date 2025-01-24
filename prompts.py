@@ -108,7 +108,9 @@ class Prompt():
         blank_line = self.format_blank_line(width)
         print('#' * width)
         print(blank_line)
-        height -= 9
+
+        # height minus sum of all standard empty lines, title etc.
+        height -= 10
 
         menu = self.format_text('Menu: Inventory (i) - Quit game (quit)', width)
         prompt = self.format_text(self.prompt['prompt'], width)
@@ -126,6 +128,7 @@ class Prompt():
         print(blank_line)
         if len(answers) > 0:
             print(answers)
+        print(blank_line)
 
     def format_text(self, text, width) -> str:
         width -= 4
@@ -207,6 +210,9 @@ class Prompt():
             for num, answer in self.answers.items():
                 formatted_answer = f'{num} {answer}'
                 number_of_lines += self.count_lines(formatted_answer, width)
+
+            # add one (empty) line after answers
+            number_of_lines += 10
             return number_of_lines
 
     def prompt_count_total(self, prompt_lines, answer_lines) -> int:
