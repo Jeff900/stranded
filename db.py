@@ -117,7 +117,7 @@ class Database():
         query_template = self.get_query(queryfile)
         for item in data:
             query = query_template.format(values=item)
-            print(query)
+            # print(query)
             self.cursor.execute(query)
         self.db.commit()
 
@@ -125,3 +125,13 @@ class Database():
         query = 'SELECT count(id) FROM prompt'
         results = self.cursor.execute(query).fetchone()
         return results[0]
+
+    def empty_tables(self, tables):
+        """Will remove all data from specified table. This is used when an
+        error occurs during the database setup, to make sure no invalid or
+        incomplete data will remain.
+        """
+        for table in tables:
+            query = f'DELETE FROM {table}'
+            self.cursor.execute(query)
+        self.db.commit()
