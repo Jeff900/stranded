@@ -25,6 +25,8 @@ class Game:
         self.gamename = self.settings['gamename']
         self.screen_size()
         self.username = 'username'
+        if not self.check_database():
+            self.setup_database()
 
     def screen_size(self) -> None:
         "Get current screen height and width of terminal"
@@ -47,9 +49,23 @@ class Game:
         check every single table. 
         """
         if self.db.count_prompts() == 0:
-            print('It seems the database is not set up yet.')
             return False
         return True
+
+    def setup_database(self):
+        """Data will be inserted to tables in database. If an error occurs, the
+        tables will be emptied again to prevent invalid and incomplete data in
+        the database.
+        """
+
+        try:
+            # try inserting the gamedata
+            self.db.insert_game_data()
+        except Exception:
+            # on error, empty all tables
+            self.db.empty_tables(['prompt', 'answer', 'item'])
+            print('Not able to setup the database. Deleting data and quiting...')
+            quit()
 
 
 def main():
