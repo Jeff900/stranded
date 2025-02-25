@@ -1,5 +1,6 @@
 """module for handling prompts and answer"""
 
+from os import system, name
 from art import tprint
 
 
@@ -77,7 +78,6 @@ class Prompt():
         # if prompt item required is not 0
         if self.prompt['required_item'] != 0 and self.has_required_item(
             self.prompt['required_item']):
-            print('Item required here AND in inventory')
             self.next_prompt = self.prompt['following_alt']
         else: 
             self.next_prompt = following
@@ -104,6 +104,12 @@ class Prompt():
             return query_list
 
     def print_prompt(self, gamename, height, width) -> None:
+        # Clear screen
+        if name == 'nt':
+            system('cls')
+        else:
+            system('clear')
+
         tprint(gamename)
         blank_line = self.format_blank_line(width)
         print('#' * width)
@@ -112,7 +118,8 @@ class Prompt():
         # height minus sum of all standard empty lines, title etc.
         height -= 10
 
-        menu = self.format_text('Menu: Inventory (i) - Quit game (quit)', width)
+        # menu = self.format_text('Menu: Inventory (i) - Quit game (quit)', width)
+        menu = self.format_text('Menu: Quit game (quit)', width)
         prompt = self.format_text(self.prompt['prompt'], width)
         answers = self.format_answers(width)
 
